@@ -4,7 +4,9 @@
   "description": "Primer proyecto con ts y express",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.ts"
+    "dev": "nodemon src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
   },
   "author": "Johan Cacerez",
   "license": "ISC",
