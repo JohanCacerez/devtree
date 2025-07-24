@@ -1,6 +1,7 @@
 import express from 'express';
 
 const app = express();
+             //variable de entorno para el puerto
 const port = process.env.PORT || 3000;
 
 //routing

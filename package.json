@@ -2,10 +2,9 @@
   "name": "devtree",
   "version": "1.0.0",
   "description": "Primer proyecto con ts y express",
-  "type": "module",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon src/index.ts"
   },
   "author": "Johan Cacerez",
   "license": "ISC",
@@ -13,6 +12,9 @@
     "express": "^5.1.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "@types/express": "^5.0.3",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   }
 }
