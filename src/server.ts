@@ -1,10 +1,11 @@
 import express from 'express';
 
+//rutas
+import router from './router';
+
 const app = express();
 
-//routing
-app.get("/", (req, res) => {
-  res.send("Hello, World!");
-});
+app.use("/", router)
+
 
 export default app;
