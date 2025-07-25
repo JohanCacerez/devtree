@@ -2,17 +2,9 @@ import {Router} from 'express';
 
 const router = Router();
 
-//routing
-router.get("/", (req, res) => {
-  res.send("Hello, World!");
+//Autenticacion y registro
+router.post('/auth/register', (req, res) => {
+  console.log(req.body)
 });
 
-router.get("/about", (req, res) => {
-  res.send("About Page");
-});
-
-router.get("/contact", (req, res) => {
-  res.send("Contact Page");
-});
-
-export default router;
+export default router;  
