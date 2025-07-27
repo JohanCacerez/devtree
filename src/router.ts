@@ -5,8 +5,9 @@ const router = Router();
 
 //Autenticacion y registro
 router.post('/auth/register', async (req, res) => {
-
+  console.log(req.body);
   await User.create(req.body)
+  res.send("registered user");
 
 });
 
