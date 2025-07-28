@@ -16,6 +16,7 @@ connectDB();
 //Leer datos del body
 app.use(express.json());
 
+//ruta principal
 app.use("/", router)
 
 
