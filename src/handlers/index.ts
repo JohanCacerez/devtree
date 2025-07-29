@@ -1,10 +1,18 @@
 import { Request, Response } from "express";
+import { validationResult } from "express-validator";
 import slug from "slug";
 import UserModel from "../Models/User";
 import { hashPassword } from "../utils/auth";
 
 export const createAccount = async (req: Request, res: Response) => {
-  const {email, password} = req.body;
+
+  //manejo de errores
+  let errors = validationResult(req);
+  if(!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { email, password } = req.body;
 
   //verificamos que el email este disponible
   const userExists = await UserModel.findOne({ email });
@@ -13,12 +21,12 @@ export const createAccount = async (req: Request, res: Response) => {
     //creamos un error si el usuario ya existe
     const error = new Error("email already exists");
     //mandamos el error al cliente y detenemos la ejecución
-    return res.status(409).json({error: error.message});
+    return res.status(409).json({ error: error.message });
   }
 
   //asignamos un handle al usuario
   //slug es una librería que convierte un string en un slug
-  const handle = slug(req.body.handle, '')
+  const handle = slug(req.body.handle, "");
 
   //verificar disponibilidad del handle
   const handleExists = await UserModel.findOne({ handle });
@@ -27,7 +35,7 @@ export const createAccount = async (req: Request, res: Response) => {
     //creamos un error si el nombre ya existe
     const error = new Error("Name already exists");
     //mandamos el error al cliente y detenemos la ejecución
-    return res.status(409).json({error: error.message});
+    return res.status(409).json({ error: error.message });
   }
 
   //nuevo usuario
