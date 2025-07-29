@@ -6,12 +6,6 @@ import { checkPassword, hashPassword } from "../utils/auth";
 
 export const createAccount = async (req: Request, res: Response) => {
 
-  //manejo de errores
-  let errors = validationResult(req);
-  if(!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-
   const { email, password } = req.body;
 
   //verificamos que el email este disponible
@@ -52,11 +46,6 @@ export const createAccount = async (req: Request, res: Response) => {
 };
 
 export const login = async (req: Request, res: Response) => {
-  //manejo de errores
-  let errors = validationResult(req);
-  if(!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
 
   const { email, password } = req.body;
 
