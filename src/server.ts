@@ -9,9 +9,15 @@ import {connectDB} from './config/db'
 //ENV
 import 'dotenv/config';
 
-const app = express();
+import cors from 'cors';
+import {corsConfig} from './config/cors'
 
 connectDB();
+const app = express();
+
+//cors
+
+app.use(cors(corsConfig));
 
 //Leer datos del body
 app.use(express.json());
