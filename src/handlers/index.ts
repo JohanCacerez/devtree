@@ -3,6 +3,7 @@ import { validationResult } from "express-validator";
 import slug from "slug";
 import UserModel from "../Models/User";
 import { checkPassword, hashPassword } from "../utils/auth";
+import { generateJWT } from "../utils/jwt";
 
 export const createAccount = async (req: Request, res: Response) => {
 
@@ -13,7 +14,7 @@ export const createAccount = async (req: Request, res: Response) => {
 
   if (userExists) {
     //creamos un error si el usuario ya existe
-    const error = new Error("email already exists");
+    const error = new Error("El correo ya está en uso");
     //mandamos el error al cliente y detenemos la ejecución
     return res.status(409).json({ error: error.message });
   }
@@ -27,7 +28,7 @@ export const createAccount = async (req: Request, res: Response) => {
 
   if (handleExists) {
     //creamos un error si el nombre ya existe
-    const error = new Error("Name already exists");
+    const error = new Error("Este nombre de usuario ya está en uso");
     //mandamos el error al cliente y detenemos la ejecución
     return res.status(409).json({ error: error.message });
   }
@@ -42,7 +43,7 @@ export const createAccount = async (req: Request, res: Response) => {
   //guardamos el usuario en la base de datos
   await User.save();
   //enviamos una respuesta al cliente
-  res.status(201).send("registered user");
+  res.status(201).send("Usuario registrado correctamente");
 };
 
 export const login = async (req: Request, res: Response) => {
@@ -54,7 +55,7 @@ export const login = async (req: Request, res: Response) => {
 
   if (!user) {
     //creamos un error si el usuario no existe
-    const error = new Error("email not found");
+    const error = new Error("Correo no encontrado");
     //mandamos el error al cliente y detenemos la ejecución
     return res.status(404).json({ error: error.message });
   }
@@ -62,10 +63,12 @@ export const login = async (req: Request, res: Response) => {
   //comprobamos la contraseña
   const isPasswordValid = await checkPassword(password, user.password);
   if (!isPasswordValid) {
-    const error = new Error("invalid password");
+    const error = new Error("Contraseña incorrecta");
     return res.status(401).json({ error: error.message });
   }
 
+  generateJWT(user)
+
   //si todo es correcto, devolvemos el usuario
-  res.status(200).json({ user });
+  res.send('autenticado...')
 }
