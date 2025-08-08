@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import slug from "slug";
-import jwt from "jsonwebtoken";
+
 import UserModel from "../Models/User";
 import { checkPassword, hashPassword } from "../utils/auth";
 import { generateJWT } from "../utils/jwt";
@@ -73,37 +73,5 @@ export const login = async (req: Request, res: Response) => {
 };
 
 export const getUser = async (req: Request, res: Response) => {
-  const bearer = req.headers.authorization;
-
-  //verificamos que el token de autenticación exista
-  if (!bearer) {
-    const error = new Error("No se ha proporcionado un token de autenticación");
-    return res.status(401).json({ error: error.message });
-  }
-
-  //verificamos que el token de autenticación sea válido
-  const [, token] = bearer.split(" ");
-
-  //verificamos que el token no sea nulo o indefinido
-  if (!token) {
-    const error = new Error("Token de autenticación inválido");
-    return res.status(401).json({ error: error.message });
-  }
-
-  //verificamos el token y obtenemos el usuario
-  try {
-    // Verificamos el token
-    const result = jwt.verify(token, process.env.JWT_SECRET);
-    // Si el token es válido, buscamos al usuario por su ID
-    if (typeof result === "object" && result.id) {
-      const user = await UserModel.findById(result.id).select("-password -__v");
-      if (!user) {
-        const error = new Error("El usuario no existe");
-        return res.status(404).json({ error: error.message });
-      }
-      res.json(user);
-    }
-  } catch (error) {
-    res.status(500).json({ error: "Error al verificar el token" });
-  }
+  res.json(req.user)
 };

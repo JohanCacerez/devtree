@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 
 //definir una interfaz para el modelo de usuario
 //esto es para que TypeScript sepa qué propiedades tendrá el modelo de usuario
-interface IUser {
+export interface IUser{
     handle: string;
     name: string;
     email: string;
